@@ -1,13 +1,13 @@
-import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { RNCamera } from "react-native-camera"; // Import RNCamera from the library
 import { FontFamily, Color } from "../GlobalStyles";
 
-const Camera = () => {
-  const onCapture = async (camera) => {
+const Camera = ({ onCapture }) => {
+  const handleCapture = async (camera) => {
     const options = { quality: 0.5, base64: true };
     const data = await camera.takePictureAsync(options);
-    console.log(data.uri); // You can use the captured image data as needed
+    onCapture(data.uri);
   };
 
   return (
@@ -23,6 +23,9 @@ const Camera = () => {
             <View style={styles.rectangleParent}>
               <View style={styles.groupChild} />
               <Text style={styles.ambil}>Ambil</Text>
+              <TouchableOpacity onPress={() => handleCapture(camera)}>
+                <Text style={styles.captureButton}>Capture</Text>
+              </TouchableOpacity>
             </View>
           );
         }}
@@ -46,6 +49,16 @@ const styles = StyleSheet.create({
   ambil: {
     width: "57.83%",
     top: "34.38%",
+    left: "21.08%",
+    fontSize: 20,
+    fontFamily: FontFamily.robotoRegular,
+    color: Color.whiteLight,
+    textAlign: "center",
+    position: "absolute",
+  },
+  captureButton: {
+    width: "57.83%",
+    top: "50%",
     left: "21.08%",
     fontSize: 20,
     fontFamily: FontFamily.robotoRegular,
